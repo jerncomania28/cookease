@@ -1,10 +1,18 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+// components
+import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn';
+import Dashboard from './pages/Dashboard';
 
 const App: React.FC = () => {
   return (
-    <div className="text-[20px] font-[600] text-blue-300">
-      Coookease Application
-    </div>
+    <Routes>
+      <Route path="/" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   );
 };
 
