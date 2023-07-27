@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import { AuthContext } from '../../context/auth';
 
 //components
 import InputField from '../InputField';
@@ -10,8 +13,9 @@ import validation, { ErrorProps } from './SignUpValidation';
 //utils
 import {
   createUserViaEmailAndPassword,
-  signOutUser,
+  getCurrentUser,
 } from '../../utils/firebase';
+import storageUtils from '../../utils/storageUtils';
 
 export interface SignUpProps {
   first_name: string;
@@ -36,12 +40,19 @@ const SignUpForm: React.FC = () => {
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [viewPassword, setViewPassword] = React.useState<boolean>(false);
+  const [viewConfirmPassword, setViewConfirmPassword] = React.useState<boolean>(
+    false,
+  );
   const [errors, setErrors] = React.useState<ErrorProps>({});
 
   const navigate = useNavigate();
+  const { handleCurrentUser } = useContext(AuthContext);
 
   const handleViewPassword = () => {
     setViewPassword(!viewPassword);
+  };
+  const handleViewConfirmPassword = () => {
+    setViewConfirmPassword(!viewConfirmPassword);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,10 +68,25 @@ const SignUpForm: React.FC = () => {
       setIsLoading(true);
       createUserViaEmailAndPassword(signUpParameters)
         .then((response) => {
-          setSignUpParameters(defaultSignUpProps);
-          console.log('response', response);
-          signOutUser();
-          navigate('/signin');
+          return getCurrentUser(response as string);
+        })
+        .then((currentUser) => {
+          if (currentUser) {
+            const { email, displayName } = currentUser;
+            handleCurrentUser({ email, displayName });
+            storageUtils.setItem({ email, displayName });
+            toast.success('🦄 account succesfully created!!', {
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'light',
+            });
+            navigate('/dashboard');
+          }
         })
         .finally(() => {
           setIsLoading(false);
@@ -115,13 +141,16 @@ const SignUpForm: React.FC = () => {
         className="my-6"
       />
       <InputField
-        type="password"
+        type={viewConfirmPassword ? 'text' : 'password'}
         name="confirm_password"
         label="Confirm Password"
         value={signUpParameters.confirm_password}
         handleChange={handleChange}
         error={errors.confirm_password}
         className="my-6"
+        isPassword
+        viewPassword={viewConfirmPassword}
+        handleViewPassword={handleViewConfirmPassword}
       />
       <button
         className={`w-full py-4 text-center text-white bg-[#13A456] text-[16px] font-[600] rounded-md outline-none border-none ${

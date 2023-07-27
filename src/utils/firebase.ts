@@ -63,11 +63,12 @@ export const createUserViaEmailAndPassword = async (
       displayName: `${first_name} ${last_name}`,
       email,
     });
+
+    return createUserResponse?.user?.uid;
   } catch (err) {
     console.log('error occured trying to create and store user data', err);
+    return null;
   }
-
-  return true;
 };
 
 export const authStateChange = async (callback: (user: unknown) => void) => {

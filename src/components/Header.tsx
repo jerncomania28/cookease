@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 //components
 import SearchBar from './SearchBar';
@@ -9,6 +10,8 @@ import Avatar from '../assets/avatar.svg';
 
 const Header: React.FC = () => {
   const [searchValue, setSearchValue] = React.useState<string>('');
+  const location = useLocation();
+  const header = location.pathname.slice(1).split('-').join(' ');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -21,8 +24,8 @@ const Header: React.FC = () => {
         <h4 className="text-[#67748E] font-[400] text-[12px] leading-[16px]">
           Welcome,
         </h4>
-        <h1 className="text-[#1A1D23] font-[700] text-[26px] md:text-[32px] leading-[45px]">
-          Dashboard
+        <h1 className="text-[#1A1D23] font-[700] text-[26px] md:text-[32px] leading-[45px] capitalize whitespace-nowrap">
+          {header}
         </h1>
       </div>
       <div className="flex justify-end">
