@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { initializeApp } from 'firebase/app';
+import { toast } from 'react-toastify';
 
 import {
   getAuth,
@@ -65,9 +67,42 @@ export const createUserViaEmailAndPassword = async (
     });
 
     return createUserResponse?.user?.uid;
-  } catch (err) {
+  } catch (err: any) {
     console.log('error occured trying to create and store user data', err);
-    return null;
+    if (err.code === 'auth/email-already-exists') {
+      toast.error('🦄 email already exist!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    } else if (err.code === 'auth/email-already-in-use') {
+      toast.error('🦄 email already in use!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    } else {
+      toast.error('🦄 An error occured!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
   }
 };
 
