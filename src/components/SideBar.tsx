@@ -1,5 +1,8 @@
-import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../context/auth';
 
 //components
 import Tag from './Tag';
@@ -60,13 +63,28 @@ const sideBarLinks: SideLinkProp[] = [
 ];
 
 const SideBar: React.FC = () => {
+  const navigate = useNavigate();
+
+  const { currentUser, handleMobile } = useContext(AuthContext);
+
   const handleLogOut = () => {
     signOutUser();
     storageUtils.clearStorage();
+    toast.info('🦄 logged out user!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+    navigate('/');
   };
 
   return (
-    <div className="w-full h-[100vh] relative hidden md:flex md:flex-col md:justify-between shadow">
+    <div className="w-full h-[100vh] relative flex flex-col justify-between shadow">
       {/* dashbord nav */}
       <div className="block">
         <div className="h-[160px] bg-[#0C1325] flex justify-center items-center">
@@ -79,10 +97,11 @@ const SideBar: React.FC = () => {
           </h1>
           {sideBarLinks.map((linkItem, _idx) => (
             <NavLink
+              onClick={handleMobile}
               key={_idx}
               to={linkItem.href}
               className={({ isActive }) =>
-                `w-full text-[18px] flex px-6 py-3 items-center ${
+                `w-full  text-[14px] md:text-[18px] flex px-6 py-3 items-center ${
                   linkItem.isDisabled && 'pointer-events-none'
                 }   ${
                   isActive
@@ -118,9 +137,9 @@ const SideBar: React.FC = () => {
           alt="avatar"
           className="w-[40px] h-[40px] rounded-full"
         />
-        <div className="flex flex-col mx-4">
-          <h3>Bola Olaniyan</h3>
-          <h4>bolaolaniyan@qa.team</h4>
+        <div className="flex flex-col mx-2 md;mx-4 text-[14px] md:text-[16px]">
+          <h3>{currentUser.displayName}</h3>
+          <h4>{currentUser.email}</h4>
         </div>
         <img
           src={Logout}

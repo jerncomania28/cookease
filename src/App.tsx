@@ -5,13 +5,65 @@ import { Routes, Route } from 'react-router-dom';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
+import ErrorPage from './pages/ErrorPage';
+import Discover from './pages/Discover';
+import Recipes from './pages/Recipes';
+import ProtectedRoutes from './components/ProtectedRoutes';
+
+//layout
+import AdminLayout from './Layout/AdminLayout';
+import AuthLayout from './Layout/AuthLayout';
 
 const App: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<SignUp />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+        path="/"
+        element={
+          <AuthLayout>
+            <SignUp />
+          </AuthLayout>
+        }
+      />
+      <Route
+        path="/signin"
+        element={
+          <AuthLayout>
+            <SignIn />
+          </AuthLayout>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <AdminLayout>
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+          </AdminLayout>
+        }
+      />
+      <Route
+        path="/discover"
+        element={
+          <AdminLayout>
+            <ProtectedRoutes>
+              <Discover />
+            </ProtectedRoutes>
+          </AdminLayout>
+        }
+      />
+      <Route
+        path="/my-recipes"
+        element={
+          <AdminLayout>
+            <ProtectedRoutes>
+              <Recipes />
+            </ProtectedRoutes>
+          </AdminLayout>
+        }
+      />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 };

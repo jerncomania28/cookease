@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { AuthContext } from '../../context/auth';
 
@@ -54,10 +55,19 @@ const SignInForm: React.FC = () => {
       })
       .then((currentUser) => {
         if (currentUser) {
-          console.log('current user', currentUser);
           const { email, displayName } = currentUser;
           handleCurrentUser({ email, displayName });
           storageUtils.setItem({ email, displayName });
+          toast.success('🦄 user logged in!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
           navigate('/dashboard');
         }
       })
