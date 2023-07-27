@@ -73,6 +73,41 @@ const SignInForm: React.FC = () => {
       })
       .catch((err) => {
         console.log('error signing in', err);
+        console.log('error code', err.code);
+        if (err.code === 'auth/wrong-password') {
+          toast.error('🦄 wrong Password!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        } else if (err.code === 'auth/user-not-found') {
+          toast.error('🦄 user not found!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        } else {
+          toast.error('🦄 An error occured!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        }
       })
       .finally(() => {
         setIsLoading(false);
