@@ -12,7 +12,7 @@ const WeekRecipe: React.FC = () => {
   return (
     <div className="w-full relative bg-week-recipe bg-cover py-8 px-8 mb-10">
       <div className="w-full h-full absolute top-0 left-0 bg-[#000000CC] opacity-70 rounded-md"></div>
-      <div className="w-[50%] relative">
+      <div className="w-[80%] md:w-[50%] relative">
         <Tag className="px-2 py-1 uppercase bg-white bg-opacity-40 text-white font-[700] text-[12px]">
           Recipe of The Week
         </Tag>

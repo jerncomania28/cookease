@@ -85,6 +85,11 @@ const SideBar: React.FC = () => {
     navigate('/');
   };
 
+  const handleAddNewRecipe = () => {
+    handleNewRecipe();
+    handleMobile();
+  };
+
   return (
     <div className="w-full h-[100vh] relative flex flex-col justify-between shadow">
       {/* dashbord nav */}
@@ -130,7 +135,7 @@ const SideBar: React.FC = () => {
           <button
             role="button"
             className="w-[90%] mx-auto py-2 px-6 rounded-md text-white bg-[#13A456] flex justify-center items-center my-3"
-            onClick={handleNewRecipe}
+            onClick={handleAddNewRecipe}
           >
             <span>New Recipe</span>
             <img src={Plus} alt="recipe-plus" className="mx-2" />

@@ -7,10 +7,10 @@ const ImageFileUpload: React.FC = () => {
   return (
     <div className="w-full relative">
       <label
-        htmlFor="#image_url"
-        className="w-full border-[1px] border-solid border-[#EAECF0] rounded-md flex flex-col items-center justify-center py-4"
+        htmlFor="image_url"
+        className="w-full border-[1px] border-solid border-[#EAECF0] rounded-md flex flex-col items-center justify-center py-2 cursor-pointer my-1"
       >
-        <div className="w-[40px] h-[40px] rounded-full bg-[#F2F4F7] relative">
+        <div className="w-[40px] h-[40px] rounded-full bg-[#F2F4F7] relative flex justify-center items-center">
           <FontAwesomeIcon
             icon={faCloudArrowUp}
             className="w-[20px] h-[20px]"
