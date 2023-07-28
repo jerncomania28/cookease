@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { initializeApp } from 'firebase/app';
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   getAuth,
@@ -10,10 +11,20 @@ import {
   signOut,
 } from 'firebase/auth';
 
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
-import { getStorage, ref } from 'firebase/storage';
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+} from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 import { SignUpProps } from '../components/SignUp/SignUpForm';
+import { NewRecipeProps } from '../components/modals/NewRecipe';
+
+//utils
+import storageUtils from './storageUtils';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCFOwo4rE4MmfwnljkYhcYu1oET3lkf4eQ',
@@ -31,11 +42,7 @@ export const auth = getAuth();
 
 const db = getFirestore();
 
-const storage = getStorage(app);
-
-const storageRef = ref(storage);
-
-console.log('storageRef', storageRef);
+export const storage = getStorage(app);
 
 export const signOutUser = async () => await signOut(auth);
 
@@ -128,4 +135,24 @@ export const getCurrentUser = async (uid: string) => {
   const currentUserDocRef = doc(db, 'users', uid);
   const currentUser = await getDoc(currentUserDocRef);
   return currentUser.data();
+};
+
+export const createRecipeDocument = async (newRecipe: NewRecipeProps) => {
+  const user = storageUtils.getItem();
+  const uniqueId = uuidv4();
+  const collectionRef = collection(db, 'recipes');
+  const recipeDocRef = doc(collectionRef, uniqueId);
+
+  const createdAt = new Date();
+  try {
+    await setDoc(recipeDocRef, {
+      createdAt,
+      ...newRecipe,
+      ...user,
+    });
+
+    return true;
+  } catch (err) {
+    console.log('error occured trying to create recipe', err);
+  }
 };

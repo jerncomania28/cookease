@@ -5,6 +5,7 @@ interface RecipeDropDownProps {
   name: string;
   options: string[];
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  error?: string;
 }
 
 const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
@@ -12,9 +13,10 @@ const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
   name,
   options,
   handleChange,
+  error,
 }) => {
   return (
-    <div className="w-full relative flex flex-col my-2">
+    <div className="w-full relative flex flex-col my-4">
       <label
         htmlFor={name}
         className="my-2 font-[500] text-[14px] text-[#344054] capitalize"
@@ -24,7 +26,7 @@ const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
       <select
         name={name}
         id={name}
-        className="py-2 px-3 border border-solid bg-white border-gray-300 rounded-md outline-none"
+        className="py-3 px-4 border border-solid bg-white border-gray-300 rounded-md outline-none"
         onChange={handleChange}
       >
         {options.map((option, _idx) => (
@@ -33,6 +35,7 @@ const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
           </option>
         ))}
       </select>
+      {error && <small className="text-red-600 font-[500]">{error}</small>}
     </div>
   );
 };
