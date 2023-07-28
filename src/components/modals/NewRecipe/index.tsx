@@ -25,6 +25,7 @@ export interface NewRecipeProps {
   cooking_time: string;
   ingredients: string;
   cuisine_type: string;
+  instructions: string;
 }
 
 const defaultNewRecipeProps = {
@@ -34,6 +35,7 @@ const defaultNewRecipeProps = {
   cooking_time: '',
   ingredients: '',
   cuisine_type: '',
+  instructions: '',
 };
 
 const NewRecipe: React.FC = () => {
@@ -130,6 +132,8 @@ const NewRecipe: React.FC = () => {
             name="ingredients"
             handleChange={handleChange}
             error={errors?.ingredients}
+            isSubtext
+            subtext="separate ingredients with comma"
           />
           <RecipeDropDown
             label="Cuisine type"
@@ -137,6 +141,14 @@ const NewRecipe: React.FC = () => {
             handleChange={handleChange}
             options={['Italian', 'Mexican', 'French', 'Chinese']}
             error={errors?.cuisine_type}
+          />
+          <RecipeTextArea
+            label="Instructions"
+            name="instructions"
+            handleChange={handleChange}
+            error={errors?.instructions}
+            isSubtext
+            subtext="separate instructions with comma"
           />
         </div>
         <button

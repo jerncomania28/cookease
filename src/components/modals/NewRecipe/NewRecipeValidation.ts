@@ -7,6 +7,7 @@ export interface ErrorProps {
   cooking_time?: string;
   ingredients?: string;
   cuisine_type?: string;
+  instructions?: string;
 }
 
 const validation = (values: NewRecipeProps) => {
@@ -34,6 +35,11 @@ const validation = (values: NewRecipeProps) => {
   }
   if (!values.cuisine_type) {
     errors.cuisine_type = 'select a cuisine type.';
+  }
+  if (!values.instructions) {
+    errors.instructions = 'instructions are required.';
+  } else if (!ingredientsRegex.test(values.instructions)) {
+    errors.instructions = 'use comma separated format to pass in instructions';
   }
 
   return errors;
