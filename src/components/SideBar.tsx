@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/auth';
 
@@ -65,7 +65,9 @@ const sideBarLinks: SideLinkProp[] = [
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
 
-  const { currentUser, handleMobile } = useContext(AuthContext);
+  const { currentUser, handleMobile, handleNewRecipe } = useContext(
+    AuthContext,
+  );
 
   const handleLogOut = () => {
     signOutUser();
@@ -90,8 +92,8 @@ const SideBar: React.FC = () => {
         <div className="h-[160px] bg-[#0C1325] flex justify-center items-center">
           <img src={Logo} alt="logo-img" />
         </div>
-        <div className="my-6">
-          <h1 className="uppercase text-[#586474] font-[400] text-[16px] px-6 py-4">
+        <div className="my-4">
+          <h1 className="uppercase text-[#586474] font-[400] text-[16px] px-4 py-1">
             {' '}
             Menu
           </h1>
@@ -101,7 +103,7 @@ const SideBar: React.FC = () => {
               key={_idx}
               to={linkItem.href}
               className={({ isActive }) =>
-                `w-full  text-[14px] md:text-[18px] flex px-6 py-3 items-center ${
+                `w-full flex px-4 py-3 items-center ${
                   linkItem.isDisabled && 'pointer-events-none'
                 }   ${
                   isActive
@@ -115,17 +117,24 @@ const SideBar: React.FC = () => {
                 alt="dashboard-icon"
                 className="w-[20px] h-[20px]"
               />
-              <span className="mx-4">{linkItem.text}</span>
-              {linkItem.isDisabled && <Tag tagContent="coming soon" />}
+              <span className="mx-4 whitespace-nowrap  text-[14px] md:text-[16px]">
+                {linkItem.text}
+              </span>
+              {linkItem.isDisabled && (
+                <Tag className="mx-2 text-[8px] md:text-[12px] py-1 px-2 bg-[#F2F4F7] text-[#344054] font-[500]">
+                  coming soon
+                </Tag>
+              )}
             </NavLink>
           ))}
-          <Link
-            to="#"
-            className="w-[90%] mx-auto py-3 px-6 rounded-md text-white bg-[#13A456] flex justify-center items-center my-3"
+          <button
+            role="button"
+            className="w-[90%] mx-auto py-2 px-6 rounded-md text-white bg-[#13A456] flex justify-center items-center my-3"
+            onClick={handleNewRecipe}
           >
             <span>New Recipe</span>
             <img src={Plus} alt="recipe-plus" className="mx-2" />
-          </Link>
+          </button>
         </div>
       </div>
 

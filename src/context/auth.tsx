@@ -15,19 +15,23 @@ interface InitialStateProps {
   isLoggedIn: boolean;
   currentUser: CurrentUserProps;
   isMobile: boolean;
+  isNewRecipe: boolean;
   handleCurrentUser: (currentUser: CurrentUserProps) => void;
   handleIsLoggedIn: (_ac: boolean) => void;
   handleMobile: () => void;
+  handleNewRecipe: () => void;
 }
 
 const initialState = {
   isLoggedIn: false,
   currentUser: defaultCurrentUser,
   isMobile: false,
+  isNewRecipe: false,
   handleCurrentUser: () => null,
   handleIsLoggedIn: () => null,
   handleLightBox: () => null,
   handleMobile: () => null,
+  handleNewRecipe: () => null,
 };
 
 export const AuthContext = createContext<InitialStateProps>(initialState);
@@ -38,6 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     defaultCurrentUser,
   );
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
+  const [isNewRecipe, setIsNewRecipe] = React.useState<boolean>(false);
 
   const handleIsLoggedIn = (_ac: boolean) => {
     setIsLoggedIn(_ac);
@@ -51,6 +56,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsMobile(!isMobile);
   };
 
+  const handleNewRecipe = () => {
+    setIsNewRecipe(!isNewRecipe);
+  };
+
   const value = {
     currentUser,
     handleCurrentUser,
@@ -58,6 +67,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     handleIsLoggedIn,
     isMobile,
     handleMobile,
+    isNewRecipe,
+    handleNewRecipe,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
