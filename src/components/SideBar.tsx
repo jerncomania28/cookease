@@ -2,6 +2,8 @@
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../context/auth';
 
 //components
@@ -65,7 +67,7 @@ const sideBarLinks: SideLinkProp[] = [
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
 
-  const { currentUser, handleMobile, handleNewRecipe } = useContext(
+  const { currentUser, handleMobile, handleNewRecipe, isMobile } = useContext(
     AuthContext,
   );
 
@@ -86,18 +88,25 @@ const SideBar: React.FC = () => {
   };
 
   const handleAddNewRecipe = () => {
-    handleNewRecipe();
+    if (isMobile) {
+      handleNewRecipe();
+    }
     handleMobile();
   };
 
   return (
-    <div className="w-full h-[100vh] relative flex flex-col justify-between shadow">
+    <div className="w-full h-[100vh] relative flex flex-col justify-between shadow bg-white">
       {/* dashbord nav */}
       <div className="block">
-        <div className="h-[160px] bg-[#0C1325] flex justify-center items-center">
-          <img src={Logo} alt="logo-img" />
+        <div className="h-[160px] relative bg-[#0C1325] flex flex-col justify-center items-center">
+          <FontAwesomeIcon
+            icon={faXmark}
+            className="text-white w-[32px] h-[32px] self-end pb-5 px-4"
+            onClick={handleMobile}
+          />
+          <img src={Logo} alt="logo-img" className="py-4" />
         </div>
-        <div className="my-4">
+        <div className="my-4 h-custom relative">
           <h1 className="uppercase text-[#586474] font-[400] text-[16px] px-4 py-1">
             {' '}
             Menu
@@ -151,9 +160,13 @@ const SideBar: React.FC = () => {
           alt="avatar"
           className="w-[40px] h-[40px] rounded-full"
         />
-        <div className="flex flex-col mx-2 md;mx-4 text-[14px] md:text-[16px]">
+        <div className="flex flex-col mx-2 md:mx-4 text-[14px] md:text-[16px]">
           <h3>{currentUser.displayName}</h3>
-          <h4>{currentUser.email}</h4>
+          <h4>
+            {currentUser.email.length >= 17
+              ? currentUser.email.substring(0, 17) + '...'
+              : currentUser.email}
+          </h4>
         </div>
         <img
           src={Logout}
