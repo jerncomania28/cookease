@@ -5,6 +5,7 @@ import { AuthContext } from '../context/auth';
 //components
 import Header from '../components/Header';
 import SideBar from '../components/SideBar';
+import NewRecipe from '../components/modals/NewRecipe';
 
 //assets
 import Hamburger from '../assets/hamburger.svg';
@@ -23,6 +24,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     handleMobile,
     handleIsLoggedIn,
     handleCurrentUser,
+    isNewRecipe,
   } = useContext(AuthContext);
 
   React.useEffect(() => {
@@ -41,16 +43,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
     <>
       <div className="w-full h-screen relative grid grid-cols-8">
-        <div className="hidden w-full relative md:col-span-2 md:flex">
-          <div className="w-full sticky top-0 left-0">
-            <SideBar />
-          </div>
+        <div className="hidden w-full relative md:col-span-2 md:block">
+          <SideBar />
         </div>
         <div className="w-full relative col-span-8 md:col-span-6 flex flex-col items-center">
-          <div className="w-full sticky top-0">
-            <Header />
+          <Header />
+          <div className="w-full h-layout relative overflow-y-scroll bg-[#F3F4F6] py-4 px-6">
+            {children}
           </div>
-          <div className="w-full">{children}</div>
         </div>
         <div className="w-full flex justify-end fixed bottom-0 py-4 px-3 shadow-md md:hidden">
           <img
@@ -66,6 +66,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           <SideBar />
         </div>
       )}
+      {isNewRecipe && <NewRecipe />}
     </>
   );
 };

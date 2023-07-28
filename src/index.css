@@ -23,3 +23,7 @@ input:focus ~ .input-text {
 .h-custom {
   height: calc(100vw - 100px);
 }
+
+.h-layout {
+  height: calc(100vh - 160px);
+}

@@ -5,6 +5,7 @@ export default {
     extend: {
       backgroundImage: {
         'background-cover': 'url("assets/cover.svg")',
+        'week-recipe': 'url("assets/recipe-image.svg")',
       },
     },
   },

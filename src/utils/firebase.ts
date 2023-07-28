@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth';
 
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { getStorage, ref } from 'firebase/storage';
 
 import { SignUpProps } from '../components/SignUp/SignUpForm';
 
@@ -22,11 +23,17 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
 
 const db = getFirestore();
+
+const storage = getStorage(app);
+
+const storageRef = ref(storage);
+
+console.log('storageRef', storageRef);
 
 export const signOutUser = async () => await signOut(auth);
 
