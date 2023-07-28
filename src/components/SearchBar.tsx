@@ -10,12 +10,12 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ value, handleChange }) => {
   return (
-    <div className="w-[50%] md:w-full max-w-[270px] relative rounded-md ">
+    <div className="w-full relative rounded-xl ">
       <input
         type="text"
         name="search"
         placeholder="Search..."
-        className="w-full py-[0.5rem] px-2 outline-none rounded-md bg-[#F3F4F6]"
+        className="w-full py-[0.5rem] px-2 outline-none rounded-xl bg-[#F3F4F6]"
         value={value}
         onChange={handleChange}
       />

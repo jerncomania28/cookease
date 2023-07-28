@@ -21,7 +21,7 @@ input:focus ~ .input-text {
 }
 
 .h-custom {
-  height: calc(100vw - 100px);
+  height: calc(100vh - 270px);
 }
 
 .h-layout {

@@ -7,9 +7,6 @@ import Header from '../components/Header';
 import SideBar from '../components/SideBar';
 import NewRecipe from '../components/modals/NewRecipe';
 
-//assets
-import Hamburger from '../assets/hamburger.svg';
-
 //utils
 import { authStateChange } from '../utils/firebase';
 import storageUtils from '../utils/storageUtils';
@@ -21,7 +18,6 @@ interface AdminLayoutProps {
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const {
     isMobile,
-    handleMobile,
     handleIsLoggedIn,
     handleCurrentUser,
     isNewRecipe,
@@ -52,18 +48,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             {children}
           </div>
         </div>
-        <div className="w-full flex justify-end fixed bottom-0 py-4 px-3 shadow-md md:hidden">
-          <img
-            src={Hamburger}
-            alt="hamburger-icon"
-            className="w-[30px] h-[30px]"
-            onClick={handleMobile}
-          />
-        </div>
       </div>
       {isMobile && (
-        <div className="fixed h-screen top-0 left-0  w-[70%] md:hidden z-10 bg-white">
-          <SideBar />
+        <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-70">
+          <div className="top-0 left-0 fixed w-[70%] md:hidden z-10 ">
+            <SideBar />
+          </div>
         </div>
       )}
       {isNewRecipe && <NewRecipe />}
