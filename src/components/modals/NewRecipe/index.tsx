@@ -100,7 +100,7 @@ const NewRecipe: React.FC = () => {
             onClick={handleNewRecipe}
           />
         </div>
-        <div className="relative h-[400px] overflow-y-scroll px-2 md:px-4 py-2 scroll">
+        <div className="relative h-[500px] overflow-y-scroll px-2 md:px-4 py-2 scroll">
           <ImageFileUpload
             setNewRecipe={setNewRecipe}
             newRecipe={newRecipe}
@@ -152,7 +152,7 @@ const NewRecipe: React.FC = () => {
           />
         </div>
         <button
-          className={`w-full py-2 text-white bg-[#13A456] text-[16px] font-[600] rounded-md  ${
+          className={`w-full  py-2 text-white bg-[#13A456] text-[16px] font-[600] rounded-md  ${
             isLoading ? 'opacity-50' : ''
           }`}
           onClick={handleSubmit}

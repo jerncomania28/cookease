@@ -36,6 +36,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
     unsubscribeFn();
   }, []);
+
+  console.log('isMobile', isMobile);
+  console.log('isNewRecipe', isNewRecipe);
   return (
     <>
       <div className="w-full h-screen relative grid grid-cols-8">
