@@ -15,6 +15,7 @@ interface InitialStateProps {
   isLoggedIn: boolean;
   currentUser: CurrentUserProps;
   isMobile: boolean;
+  setIsMobile: React.Dispatch<React.SetStateAction<boolean>>;
   isNewRecipe: boolean;
   handleCurrentUser: (currentUser: CurrentUserProps) => void;
   handleIsLoggedIn: (_ac: boolean) => void;
@@ -27,6 +28,7 @@ const initialState = {
   currentUser: defaultCurrentUser,
   isMobile: false,
   isNewRecipe: false,
+  setIsMobile: () => null,
   handleCurrentUser: () => null,
   handleIsLoggedIn: () => null,
   handleLightBox: () => null,
@@ -69,6 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     handleMobile,
     isNewRecipe,
     handleNewRecipe,
+    setIsMobile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

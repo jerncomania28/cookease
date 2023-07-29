@@ -67,9 +67,12 @@ const sideBarLinks: SideLinkProp[] = [
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
 
-  const { currentUser, handleMobile, handleNewRecipe, isMobile } = useContext(
-    AuthContext,
-  );
+  const {
+    currentUser,
+    handleMobile,
+    handleNewRecipe,
+    setIsMobile,
+  } = useContext(AuthContext);
 
   const handleLogOut = () => {
     signOutUser();
@@ -88,10 +91,8 @@ const SideBar: React.FC = () => {
   };
 
   const handleAddNewRecipe = () => {
-    if (isMobile) {
-      handleNewRecipe();
-    }
-    handleMobile();
+    setIsMobile(false);
+    handleNewRecipe();
   };
 
   return (
@@ -99,13 +100,16 @@ const SideBar: React.FC = () => {
       {/* dashbord nav */}
       <div className="block">
         <div className="h-[160px] relative bg-[#0C1325] flex flex-col justify-center items-center">
+          {/* dashboard cancel button on mobile */}
           <FontAwesomeIcon
             icon={faXmark}
-            className="text-white w-[32px] h-[32px] self-end pb-5 px-4"
+            className="text-white w-[32px] h-[32px] self-end pb-5 px-4 md:hidden"
             onClick={handleMobile}
           />
           <img src={Logo} alt="logo-img" className="py-4" />
         </div>
+
+        {/* dashboard menu items list */}
         <div className="my-4 h-custom relative">
           <h1 className="uppercase text-[#586474] font-[400] text-[16px] px-4 py-1">
             {' '}
@@ -113,7 +117,7 @@ const SideBar: React.FC = () => {
           </h1>
           {sideBarLinks.map((linkItem, _idx) => (
             <NavLink
-              onClick={handleMobile}
+              onClick={() => setIsMobile(false)}
               key={_idx}
               to={linkItem.href}
               className={({ isActive }) =>
@@ -141,6 +145,8 @@ const SideBar: React.FC = () => {
               )}
             </NavLink>
           ))}
+
+          {/* adding new recipe pop-up trigger */}
           <button
             role="button"
             className="w-[90%] mx-auto py-2 px-6 rounded-md text-white bg-[#13A456] flex justify-center items-center my-3"
