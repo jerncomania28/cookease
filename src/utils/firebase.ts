@@ -17,6 +17,10 @@ import {
   setDoc,
   getDoc,
   collection,
+  getDocs,
+  query,
+  where,
+  DocumentData,
 } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -25,6 +29,9 @@ import { NewRecipeProps } from '../components/modals/NewRecipe';
 
 //utils
 import storageUtils from './storageUtils';
+
+//types
+// import { RecipeProps } from '../pages/Recipes';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCFOwo4rE4MmfwnljkYhcYu1oET3lkf4eQ',
@@ -76,6 +83,7 @@ export const createUserViaEmailAndPassword = async (
     );
 
     await createUserDoc(createUserResponse?.user?.uid, {
+      id: createUserResponse?.user?.uid,
       displayName: `${first_name} ${last_name}`,
       email,
     });
@@ -139,8 +147,8 @@ export const getCurrentUser = async (uid: string) => {
 
 export const createRecipeDocument = async (newRecipe: NewRecipeProps) => {
   const user = storageUtils.getItem();
-  const uniqueId = uuidv4();
   const collectionRef = collection(db, 'recipes');
+  const uniqueId = uuidv4();
   const recipeDocRef = doc(collectionRef, uniqueId);
 
   const createdAt = new Date();
@@ -149,10 +157,52 @@ export const createRecipeDocument = async (newRecipe: NewRecipeProps) => {
       createdAt,
       ...newRecipe,
       ...user,
+      uniqueId,
     });
 
     return true;
   } catch (err) {
     console.log('error occured trying to create recipe', err);
   }
+};
+
+export const readMyRecipe = async () => {
+  const user = storageUtils.getItem();
+  const collectionRef = collection(db, 'recipes');
+
+  const q = query(collectionRef, where('id', '==', user.id));
+  try {
+    const readMyRecipeSnapshot = await getDocs(q);
+
+    const result: DocumentData[] = [];
+
+    readMyRecipeSnapshot.forEach((doc) => result.push(doc.data()));
+
+    return result;
+  } catch (err) {
+    console.log('error fetching my recipe');
+  }
+};
+
+export const readAllRecipe = async () => {
+  const collectionRef = collection(db, 'recipes');
+  const q = query(collectionRef);
+
+  try {
+    const readAllRecipeSnapshot = await getDocs(q);
+
+    const result: DocumentData[] = [];
+
+    readAllRecipeSnapshot.forEach((doc) => result.push(doc.data()));
+
+    return result;
+  } catch (error) {
+    console.log('error fetching all recipes', error);
+  }
+};
+
+export const readCurrentRecipe = async (uniqueId: string) => {
+  const readRecipeRef = doc(db, 'recipes', uniqueId);
+  const readAllRecipeSnapshot = await getDoc(readRecipeRef);
+  return readAllRecipeSnapshot.data();
 };

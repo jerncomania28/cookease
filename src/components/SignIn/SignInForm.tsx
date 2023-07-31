@@ -55,9 +55,9 @@ const SignInForm: React.FC = () => {
       })
       .then((currentUser) => {
         if (currentUser) {
-          const { email, displayName } = currentUser;
-          handleCurrentUser({ email, displayName });
-          storageUtils.setItem({ email, displayName });
+          const { email, displayName, id } = currentUser;
+          handleCurrentUser({ email, displayName, id });
+          storageUtils.setItem({ email, displayName, id });
           toast.success('🦄 user logged in!', {
             position: 'top-right',
             autoClose: 5000,
@@ -72,8 +72,6 @@ const SignInForm: React.FC = () => {
         }
       })
       .catch((err) => {
-        console.log('error signing in', err);
-        console.log('error code', err.code);
         if (err.code === 'auth/wrong-password') {
           toast.error('🦄 wrong Password!', {
             position: 'top-right',

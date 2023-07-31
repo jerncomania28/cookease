@@ -72,9 +72,9 @@ const SignUpForm: React.FC = () => {
         })
         .then((currentUser) => {
           if (currentUser) {
-            const { email, displayName } = currentUser;
-            handleCurrentUser({ email, displayName });
-            storageUtils.setItem({ email, displayName });
+            const { email, displayName, id } = currentUser;
+            handleCurrentUser({ email, displayName, id });
+            storageUtils.setItem({ email, displayName, id });
             toast.success('🦄 account succesfully created!!', {
               position: 'top-right',
               autoClose: 5000,

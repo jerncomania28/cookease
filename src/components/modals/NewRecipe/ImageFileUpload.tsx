@@ -45,8 +45,6 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          console.log('snapshot', snapshot);
-
           setImageRef(snapshot?.ref);
 
           setProgress(true);

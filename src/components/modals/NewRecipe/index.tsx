@@ -80,6 +80,9 @@ const NewRecipe: React.FC = () => {
           });
           handleNewRecipe();
         })
+        .catch((err) => {
+          console.log('error from add new', err);
+        })
         .finally(() => {
           setIsLoading(false);
           navigate('/my-recipes');
@@ -126,6 +129,7 @@ const NewRecipe: React.FC = () => {
             handleChange={handleChange}
             options={['10', '20', '30', '40', '50', '60']}
             error={errors?.cooking_time}
+            isLabel
           />
           <RecipeTextArea
             label="ingredients"
@@ -141,6 +145,7 @@ const NewRecipe: React.FC = () => {
             handleChange={handleChange}
             options={['Italian', 'Mexican', 'French', 'Chinese']}
             error={errors?.cuisine_type}
+            isLabel
           />
           <RecipeTextArea
             label="Instructions"

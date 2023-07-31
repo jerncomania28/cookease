@@ -1,11 +1,12 @@
 import React from 'react';
 
 interface RecipeDropDownProps {
-  label: string;
-  name: string;
+  label?: string;
+  name?: string;
   options: string[];
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   error?: string;
+  isLabel?: boolean;
 }
 
 const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
@@ -14,15 +15,19 @@ const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
   options,
   handleChange,
   error,
+  isLabel,
 }) => {
   return (
     <div className="w-full relative flex flex-col my-4">
-      <label
-        htmlFor={name}
-        className="my-2 font-[500] text-[14px] text-[#344054] capitalize"
-      >
-        {label}
-      </label>
+      {isLabel && (
+        <label
+          htmlFor={name}
+          className="my-2 font-[500] text-[14px] text-[#344054] capitalize"
+        >
+          {label}
+        </label>
+      )}
+
       <select
         name={name}
         id={name}
