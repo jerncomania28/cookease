@@ -1,4 +1,5 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 
 //components
 import RecipeCard from '../components/RecipeCard';
@@ -10,18 +11,37 @@ import { DocumentData } from 'firebase/firestore';
 
 const Dashboard: React.FC = () => {
   const [allRecipe, setAllRecipe] = React.useState<DocumentData[]>([]);
+  const [isCreated, setIsCreated] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    readAllRecipe().then((response) =>
-      setAllRecipe(response as DocumentData[]),
-    );
+    setIsLoading(true);
+    readAllRecipe()
+      .then((response) => {
+        if (!isEmpty(response)) {
+          setIsCreated(true);
+          setAllRecipe(response as DocumentData[]);
+        } else {
+          setIsCreated(false);
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
-  if (allRecipe.length === 0) {
+  if (isLoading) {
     return (
       <div className="w-full flex justify-center items-center text-2xl">
         {' '}
         loading recipe ...
+      </div>
+    );
+  }
+
+  if (!isCreated) {
+    return (
+      <div className="w-full flex justify-center items-center text-2xl">
+        {' '}
+        No Recipe in Database.
       </div>
     );
   }
