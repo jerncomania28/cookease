@@ -4,11 +4,13 @@ const defaultCurrentUser = {
   createdAt: '',
   displayName: '',
   email: '',
+  id: '',
 };
 
 export interface CurrentUserProps {
   displayName: string;
   email: string;
+  id: string;
 }
 
 interface InitialStateProps {

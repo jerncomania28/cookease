@@ -1,13 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-// components
+// pages
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
 import ErrorPage from './pages/ErrorPage';
 import Discover from './pages/Discover';
 import Recipes from './pages/Recipes';
+import DisplayRecipe from './pages/DisplayRecipe';
 import ProtectedRoutes from './components/ProtectedRoutes';
 
 //layout
@@ -49,6 +50,16 @@ const App: React.FC = () => {
           <AdminLayout>
             <ProtectedRoutes>
               <Discover />
+            </ProtectedRoutes>
+          </AdminLayout>
+        }
+      />
+      <Route
+        path="/discover-recipe"
+        element={
+          <AdminLayout>
+            <ProtectedRoutes>
+              <DisplayRecipe />
             </ProtectedRoutes>
           </AdminLayout>
         }
