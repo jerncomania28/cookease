@@ -1,0 +1,15 @@
+export const cusineType = [
+  'Italian',
+  'Nigerian',
+  'French',
+  'Chinese',
+  'Japanese',
+  'Indian',
+  'Thai',
+  'Mexican',
+  'Spanish',
+  'Turkish',
+  'Russian',
+  'British',
+  'American',
+];

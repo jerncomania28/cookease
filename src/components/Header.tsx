@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 import { AuthContext } from '../context/auth';
 
@@ -10,7 +10,6 @@ import { AuthContext } from '../context/auth';
 import SearchBar from './SearchBar';
 
 //assets
-import Avatar from '../assets/avatar.svg';
 import Logo from '../assets/logo.svg';
 
 const Header: React.FC = () => {
@@ -34,7 +33,10 @@ const Header: React.FC = () => {
           onClick={handleMobile}
         />
         <img src={Logo} className="w-[90px] h-[40px]" />
-        <img src={Avatar} className="w-[28px] h-[28px] rounded-full" />
+        <FontAwesomeIcon
+          icon={faCircleUser}
+          className="w-[28px] h-[28px] rounded-full"
+        />
       </div>
       <header className="w-full relative h-[160px] flex flex-col md:flex-row justify-around md:justify-between items-center py-4 md:py-auto px-6 shadow bg-white">
         <div className="self-start w-full md:w-1/2 relative md:self-center">
@@ -48,7 +50,10 @@ const Header: React.FC = () => {
         <div className="flex justify-end w-full relative md:w-1/2">
           <SearchBar value={searchValue} handleChange={handleChange} />
           <Link to="#" className="cursor-pointer mx-2 hidden md:flex">
-            <img src={Avatar} alt="avatar" className="w-[36px] h-[36px]" />
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              className="w-[36px] h-[36px]"
+            />
           </Link>
         </div>
       </header>
