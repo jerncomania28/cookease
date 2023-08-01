@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../context/auth';
 
 //components
@@ -17,7 +17,6 @@ import Recipes from '../assets/recipe.svg';
 import Favorite from '../assets/favorites.svg';
 import Settings from '../assets/settings.svg';
 import Plus from '../assets/plus.svg';
-import Avatar from '../assets/avatar.svg';
 import Logout from '../assets/logout.svg';
 
 // utils
@@ -161,16 +160,15 @@ const SideBar: React.FC = () => {
       {/* profile info and sign out */}
 
       <div className="w-full relative flex justify-center items-center py-2">
-        <img
-          src={Avatar}
-          alt="avatar"
+        <FontAwesomeIcon
+          icon={faCircleUser}
           className="w-[40px] h-[40px] rounded-full"
         />
         <div className="flex flex-col mx-2 md:mx-4 text-[14px] md:text-[16px]">
           <h3>{currentUser.displayName}</h3>
-          <h4>
-            {currentUser.email.length >= 17
-              ? currentUser.email.substring(0, 17) + '...'
+          <h4 className="text-center">
+            {currentUser.email.length >= 15
+              ? currentUser.email.substring(0, 15) + '...'
               : currentUser.email}
           </h4>
         </div>

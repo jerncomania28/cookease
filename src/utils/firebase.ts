@@ -206,3 +206,62 @@ export const readCurrentRecipe = async (uniqueId: string) => {
   const readAllRecipeSnapshot = await getDoc(readRecipeRef);
   return readAllRecipeSnapshot.data();
 };
+
+export function updateOrAddRating(
+  uniqueId: string,
+  uid: string,
+  rating: number,
+) {
+  const docRef = doc(db, 'recipes', uniqueId);
+
+  // Get the document data
+  getDoc(docRef).then((docSnapshot) => {
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data();
+
+      if (data.rating) {
+        let existingIndex = -1;
+        for (let i = 0; i < data.rating?.length; i++) {
+          if (data.rating[i].uid === uid) {
+            existingIndex = i;
+            break;
+          }
+        }
+
+        if (existingIndex !== -1) {
+          // If the uid already exists, update the corresponding object with the new rating
+          data.rating[existingIndex].rating = rating;
+        } else {
+          // If the uid doesn't exist, add a new object to the rating array
+          data.rating?.push({ uid, rating });
+        }
+
+        // Update the document with the modified rating array
+        setDoc(docRef, { ...data, rating: data.rating }).then(() => {
+          console.log('rating updated!');
+        });
+      } else {
+        setDoc(docRef, {
+          ...data,
+          rating: [{ uid, rating }],
+        }).then(() => {
+          console.log('rating updated');
+        });
+      }
+    }
+  });
+}
+
+export const userHasRated = (recipe: DocumentData) => {
+  let isRated = [];
+  if (recipe.rating) {
+    isRated = recipe.rating.filter(
+      (rate: { uid: string; rating: number }) =>
+        rate.uid === storageUtils.getItem().id,
+    );
+
+    return isRated;
+  } else {
+    return [];
+  }
+};

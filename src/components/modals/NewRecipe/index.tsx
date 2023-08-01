@@ -18,6 +18,9 @@ import validation, { ErrorProps } from './NewRecipeValidation';
 //utils
 import { createRecipeDocument } from '../../../utils/firebase';
 
+// cusine data
+import { cusineType } from '../../../constants/cusine_options';
+
 export interface NewRecipeProps {
   image_url: string;
   recipe_name: string;
@@ -32,9 +35,9 @@ const defaultNewRecipeProps = {
   image_url: '',
   recipe_name: '',
   dish_overview: '',
-  cooking_time: '',
+  cooking_time: '10',
   ingredients: '',
-  cuisine_type: '',
+  cuisine_type: 'Italian',
   instructions: '',
 };
 
@@ -143,7 +146,7 @@ const NewRecipe: React.FC = () => {
             label="Cuisine type"
             name="cuisine_type"
             handleChange={handleChange}
-            options={['Italian', 'Mexican', 'French', 'Chinese']}
+            options={cusineType}
             error={errors?.cuisine_type}
             isLabel
           />
