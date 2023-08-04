@@ -7,22 +7,16 @@ import { faBars, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../context/auth';
 
 //components
-import SearchBar from './SearchBar';
+import SearchBar from './Search/SearchBar';
 
 //assets
 import Logo from '../assets/logo.svg';
 
 const Header: React.FC = () => {
-  const [searchValue, setSearchValue] = React.useState<string>('');
   const location = useLocation();
   const header = location.pathname.slice(1).split('-').join(' ');
 
   const { handleMobile } = useContext(AuthContext);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSearchValue(value);
-  };
 
   return (
     <>
@@ -48,7 +42,7 @@ const Header: React.FC = () => {
           </h1>
         </div>
         <div className="flex justify-end w-full relative md:w-1/2">
-          <SearchBar value={searchValue} handleChange={handleChange} />
+          <SearchBar />
           <Link to="#" className="cursor-pointer mx-2 hidden md:flex">
             <FontAwesomeIcon
               icon={faCircleUser}

@@ -42,7 +42,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
     <>
       <div className="w-full h-screen relative grid grid-cols-8">
-        <div className="hidden w-full relative md:col-span-2 md:block">
+        <div className="hidden w-full relative md:col-span-2 md:block ">
           <SideBar />
         </div>
         <div className="w-full relative col-span-8 md:col-span-6 flex flex-col items-center">
