@@ -97,7 +97,7 @@ const SideBar: React.FC = () => {
   return (
     <div className="w-full h-[100vh] relative flex flex-col justify-between shadow bg-white">
       {/* dashbord nav */}
-      <div className="block">
+      <div className="block ">
         <div className="h-[160px] relative bg-[#0C1325] flex flex-col justify-center items-center">
           {/* dashboard cancel button on mobile */}
           <FontAwesomeIcon

@@ -48,7 +48,7 @@ const DisplayRecipe: React.FC = () => {
     readCurrentRecipe(parsedParam?.id as string).then((response) =>
       setRecipeInformation(response as DocumentData),
     );
-  }, []);
+  }, [parsedParam]);
 
   const handleEdit = () => {
     if (!isEmpty(recipeInformation)) {
