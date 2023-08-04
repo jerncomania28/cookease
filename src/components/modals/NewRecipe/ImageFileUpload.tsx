@@ -20,18 +20,22 @@ interface ImageFileUploadProps {
   error?: string;
   setNewRecipe: React.Dispatch<SetStateAction<NewRecipeProps>>;
   newRecipe: NewRecipeProps;
-  reference?: any;
+  value?: {
+    image_url: string;
+    image_ref: string;
+  };
 }
 
 const ImageFileUpload: React.FC<ImageFileUploadProps> = ({
   error,
   setNewRecipe,
   newRecipe,
-  reference,
+  value,
 }) => {
   const [progress, setProgress] = React.useState<boolean>(false);
   const [imageURL, setImageURL] = React.useState<string>('');
   const [imageRef, setImageRef] = React.useState<any>('');
+  const [isRemoving, setIsRemoving] = React.useState<boolean>(false);
 
   // handle image upload
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +98,13 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({
           setProgress(false);
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImageURL(downloadURL);
-            setNewRecipe({ ...newRecipe, image_url: downloadURL });
+            setNewRecipe({
+              ...newRecipe,
+              image: {
+                image_url: downloadURL,
+                image_ref: uploadTask.snapshot.ref.fullPath,
+              },
+            });
           });
         },
       );
@@ -102,15 +112,34 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({
   };
 
   const handleRemoveImage = () => {
-    const deleteRef = ref(storage, imageRef?.fullPath);
+    const deleteRef = ref(storage, value?.image_ref || imageRef?.fullPath);
+    setIsRemoving(true);
     deleteObject(deleteRef)
       .then(() => {
         setImageURL('');
         setImageRef('');
-        setNewRecipe({ ...newRecipe, image_url: '' });
+        setNewRecipe({
+          ...newRecipe,
+          image: {
+            image_url: '',
+            image_ref: '',
+          },
+        });
+
+        setIsRemoving(false);
       })
       .catch((err) => {
-        console.log('error deleting', err);
+        console.log('error , Information', err);
+        toast.error('🦄 An error occurred', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       });
   };
   return (
@@ -118,21 +147,23 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({
       <div className="w-full relative py-4 border-[1px] border-solid border-[#EAECF0] flex justify-center items-center ">
         {progress ? (
           <span>uploading...</span>
-        ) : imageURL ? (
+        ) : value?.image_url || imageURL ? (
           <div className="w-full h-[250px] md:h-[150px] relative flex flex-col md:flex-row justify-around md:justify-center item-center">
             <div className="w-full md:w-1/2 flex justify-center items-center">
               <img
-                src={imageURL}
+                src={value?.image_url || imageURL}
                 alt="image-url"
                 className="w-[200px] h-[150px]"
               />
             </div>
             <button
-              className=" w-[130px] h-[40px] text-white bg-[#13A456] rounded mx-3 self-center cursor-pointer"
+              className={` w-[130px] h-[40px] text-white bg-[#13A456] rounded mx-3 self-center cursor-pointer ${
+                isRemoving ? 'opacity-50' : ''
+              }`}
+              disabled={isRemoving}
               onClick={handleRemoveImage}
-              ref={reference}
             >
-              remove image
+              {isRemoving ? 'removing ...' : ' remove image'}
             </button>
           </div>
         ) : (

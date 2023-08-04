@@ -5,6 +5,7 @@ interface RecipeInputProps {
   type: string;
   id: string;
   name: string;
+  value: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
 }
@@ -16,6 +17,7 @@ const RecipeInput: React.FC<RecipeInputProps> = ({
   id,
   handleChange,
   error,
+  value,
 }) => {
   return (
     <div className="w-full relative flex flex-col my-4">
@@ -29,6 +31,7 @@ const RecipeInput: React.FC<RecipeInputProps> = ({
         type={type}
         name={name}
         id={id}
+        value={value}
         className="py-4 px-6 border-[1px] border-solid border-[#D0D5DD] rounded-md outline-none break-all"
         onChange={handleChange}
       />

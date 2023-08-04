@@ -10,6 +10,7 @@ import NewRecipe from '../components/modals/NewRecipe';
 //utils
 import { authStateChange } from '../utils/firebase';
 import storageUtils from '../utils/storageUtils';
+import { isEmpty } from 'lodash';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     handleIsLoggedIn,
     handleCurrentUser,
     isNewRecipe,
+    editRecipe,
   } = useContext(AuthContext);
 
   React.useEffect(() => {
@@ -57,7 +59,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           </div>
         </div>
       )}
-      {isNewRecipe && <NewRecipe />}
+      {isNewRecipe && (
+        <NewRecipe
+          recipe={!isEmpty(editRecipe) && editRecipe}
+          isEdit={!isEmpty(editRecipe)}
+        />
+      )}
     </>
   );
 };

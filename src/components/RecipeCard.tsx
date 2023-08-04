@@ -17,21 +17,23 @@ interface RecipeCardItem {
 
 const RecipeCard: React.FC<RecipeCardItem> = ({ recipe, userRating }) => {
   const [rating, setRating] = React.useState<number>(userRating);
+
   return (
     <div className="w-full relative p-3 rounded-md bg-white flex flex-col shadow h-[240px]">
-      <div className="w-full relative h-[121px]">
-        <img
-          src={recipe.image_url || defaultImage}
-          alt="recipe-image"
-          className="rounded-md w-full h-full object-cover"
-        />
-      </div>
+      <Link to={`/discover-recipe?id=${recipe.uniqueId}`}>
+        <div className="w-full relative h-[121px]">
+          <img
+            src={recipe.image.image_url || defaultImage}
+            alt="recipe-image"
+            className="rounded-md w-full h-full object-cover"
+          />
+        </div>
+      </Link>
       <div className="flex flex-col px-1">
-        <Link to={`/discover-recipe?id=${recipe.uniqueId}`}>
-          <h1 className="my-3 font-[700] text-[16px] text-[#1A202C]">
-            {recipe.recipe_name}
-          </h1>
-        </Link>
+        <h1 className="my-3 font-[700] text-[16px] text-[#1A202C]">
+          {recipe.recipe_name}
+        </h1>
+
         <div className="flex justify-between py-2">
           <div className="flex justify-center items-center">
             <FontAwesomeIcon

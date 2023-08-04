@@ -21,7 +21,7 @@ const App: React.FC = () => {
       <Route
         path="/"
         element={
-          <AuthLayout>
+          <AuthLayout layoutText="Welcome to CookEase! Unleash your culinary creativity and discover a world of delightful recipes. Sign up now and embark on a flavor-packed journey">
             <SignUp />
           </AuthLayout>
         }
@@ -29,7 +29,7 @@ const App: React.FC = () => {
       <Route
         path="/signin"
         element={
-          <AuthLayout>
+          <AuthLayout layoutText="Welcome back to CookEase! Continue your culinary adventures with ease. Sign in now and access your personalized recipe collection.">
             <SignIn />
           </AuthLayout>
         }

@@ -7,6 +7,7 @@ interface RecipeDropDownProps {
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   error?: string;
   isLabel?: boolean;
+  value?: string;
 }
 
 const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
@@ -16,6 +17,7 @@ const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
   handleChange,
   error,
   isLabel,
+  value,
 }) => {
   return (
     <div className="w-full relative flex flex-col my-4">
@@ -33,6 +35,7 @@ const RecipeDropDown: React.FC<RecipeDropDownProps> = ({
         id={name}
         className="py-3 px-4 border border-solid bg-white border-gray-300 rounded-md outline-none"
         onChange={handleChange}
+        value={value}
       >
         {options.map((option, _idx) => (
           <option key={_idx} value={option}>
