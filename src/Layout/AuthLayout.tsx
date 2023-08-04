@@ -5,9 +5,10 @@ import HeroImage from '../assets/hero-img.png';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
+  layoutText?: string;
 }
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children, layoutText }) => {
   return (
     <div className="w-full relative h-[100vh] flex">
       <div className="w-full h-full md:w-1/2 relative bg-transparent md:bg-white">
@@ -23,9 +24,8 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           <h1 className="font-[600] text-[32px] text-[#101225]">
             Welcome to cookease
           </h1>
-          <p className="font-[400] text-[24px] text-[#4A5568] mt-2">
-            Setup your account and be on your way to complete control of your
-            finances
+          <p className="font-[400] text-[22px] text-[#4A5568] mt-2">
+            {layoutText}
           </p>
         </div>
         <div className="w-full relative mt-[50px]">

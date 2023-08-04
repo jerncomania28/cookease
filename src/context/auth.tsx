@@ -1,5 +1,7 @@
 import React, { createContext, useState } from 'react';
 
+import { DocumentData } from 'firebase/firestore';
+
 const defaultCurrentUser = {
   createdAt: '',
   displayName: '',
@@ -17,12 +19,15 @@ interface InitialStateProps {
   isLoggedIn: boolean;
   currentUser: CurrentUserProps;
   isMobile: boolean;
+  editRecipe: DocumentData | undefined;
   setIsMobile: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsNewRecipe: React.Dispatch<React.SetStateAction<boolean>>;
   isNewRecipe: boolean;
   handleCurrentUser: (currentUser: CurrentUserProps) => void;
   handleIsLoggedIn: (_ac: boolean) => void;
   handleMobile: () => void;
   handleNewRecipe: () => void;
+  handleEditRecipe: (item: DocumentData) => void;
 }
 
 const initialState = {
@@ -30,12 +35,15 @@ const initialState = {
   currentUser: defaultCurrentUser,
   isMobile: false,
   isNewRecipe: false,
+  editRecipe: {},
   setIsMobile: () => null,
+  setIsNewRecipe: () => null,
   handleCurrentUser: () => null,
   handleIsLoggedIn: () => null,
   handleLightBox: () => null,
   handleMobile: () => null,
   handleNewRecipe: () => null,
+  handleEditRecipe: () => null,
 };
 
 export const AuthContext = createContext<InitialStateProps>(initialState);
@@ -47,6 +55,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
   const [isNewRecipe, setIsNewRecipe] = React.useState<boolean>(false);
+  const [editRecipe, setEditRecipe] = React.useState<DocumentData | undefined>(
+    {},
+  );
 
   const handleIsLoggedIn = (_ac: boolean) => {
     setIsLoggedIn(_ac);
@@ -64,6 +75,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsNewRecipe(!isNewRecipe);
   };
 
+  const handleEditRecipe = (item: DocumentData) => {
+    setEditRecipe(item);
+  };
+
   const value = {
     currentUser,
     handleCurrentUser,
@@ -74,6 +89,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isNewRecipe,
     handleNewRecipe,
     setIsMobile,
+    editRecipe,
+    handleEditRecipe,
+    setIsNewRecipe,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

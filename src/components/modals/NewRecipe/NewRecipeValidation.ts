@@ -14,7 +14,7 @@ const validation = (values: NewRecipeProps) => {
   const errors: ErrorProps = {};
   const ingredientsRegex = new RegExp('.*[,].*');
 
-  if (!values.image_url) {
+  if (!values.image?.image_url) {
     errors.image_url = 'upload an image!';
   }
 

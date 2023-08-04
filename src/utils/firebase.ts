@@ -21,6 +21,7 @@ import {
   query,
   where,
   DocumentData,
+  deleteDoc,
 } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -66,6 +67,16 @@ const createUserDoc = async (userAuthId: string, othetProps = {}) => {
       });
     } catch (err) {
       console.log('error creating user document', err);
+      toast.error('🦄 An Error Occured!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
     }
   }
 };
@@ -90,7 +101,6 @@ export const createUserViaEmailAndPassword = async (
 
     return createUserResponse?.user?.uid;
   } catch (err: any) {
-    console.log('error occured trying to create and store user data', err);
     if (err.code === 'auth/email-already-exists') {
       toast.error('🦄 email already exist!', {
         position: 'top-right',
@@ -148,7 +158,7 @@ export const getCurrentUser = async (uid: string) => {
 export const createRecipeDocument = async (newRecipe: NewRecipeProps) => {
   const user = storageUtils.getItem();
   const collectionRef = collection(db, 'recipes');
-  const uniqueId = uuidv4();
+  const uniqueId = newRecipe?.uniqueId || uuidv4();
   const recipeDocRef = doc(collectionRef, uniqueId);
 
   const createdAt = new Date();
@@ -163,6 +173,16 @@ export const createRecipeDocument = async (newRecipe: NewRecipeProps) => {
     return true;
   } catch (err) {
     console.log('error occured trying to create recipe', err);
+    toast.error('🦄 An Error Occured!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
   }
 };
 
@@ -181,6 +201,16 @@ export const readMyRecipe = async () => {
     return result;
   } catch (err) {
     console.log('error fetching my recipe');
+    toast.error('🦄 An Error Occured!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
   }
 };
 
@@ -198,6 +228,16 @@ export const readAllRecipe = async () => {
     return result;
   } catch (error) {
     console.log('error fetching all recipes', error);
+    toast.error('🦄 An Error Occured!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
   }
 };
 
@@ -264,4 +304,10 @@ export const userHasRated = (recipe: DocumentData) => {
   } else {
     return [];
   }
+};
+
+export const deleteRecipe = async (collectionKey: string, uniqueId: string) => {
+  const deleteRef = doc(db, collectionKey, uniqueId);
+
+  return await deleteDoc(deleteRef);
 };

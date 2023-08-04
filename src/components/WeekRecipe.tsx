@@ -6,13 +6,22 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import Rate from './Rate';
 import Tag from './Tag';
 
+// import defaultImage from '../assets/default-image.jpg';
+import RecipeImage from '../assets/recipe-image.svg';
+
 const WeekRecipe: React.FC = () => {
   const [rating, setRating] = React.useState<number>(0);
 
   return (
-    <div className="w-full relative bg-week-recipe bg-cover py-8 px-8 mb-10">
+    <div className="w-full relative py-8 px-8 mb-10 rounded-md">
+      <div className="w-full h-full absolute top-0 left-0">
+        <img
+          src={RecipeImage}
+          className="w-full h-full object-cover rounded-md"
+        />
+      </div>
       <div className="w-full h-full absolute top-0 left-0 bg-[#000000CC] opacity-70 rounded-md"></div>
-      <div className="w-full md:w-[50%] relative">
+      <div className="w-full md:w-[50%] relative ">
         <Tag className="px-2 py-1 uppercase bg-white bg-opacity-40 text-white font-[700] text-[12px]">
           Recipe of The Week
         </Tag>
