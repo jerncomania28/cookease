@@ -12,7 +12,7 @@ export interface ErrorProps {
 
 const validation = (values: NewRecipeProps) => {
   const errors: ErrorProps = {};
-  const ingredientsRegex = new RegExp('.*[,].*');
+  const ingredientsRegex = new RegExp('.*[;].*');
 
   if (!values.image?.image_url) {
     errors.image_url = 'upload an image!';
@@ -31,7 +31,8 @@ const validation = (values: NewRecipeProps) => {
   if (!values.ingredients) {
     errors.ingredients = 'list of ingredients required.';
   } else if (!ingredientsRegex.test(values.ingredients)) {
-    errors.ingredients = 'use comma separated format to pass in ingredients';
+    errors.ingredients =
+      'use semi-colon separated format to pass in ingredients';
   }
   if (!values.cuisine_type) {
     errors.cuisine_type = 'select a cuisine type.';
@@ -39,7 +40,8 @@ const validation = (values: NewRecipeProps) => {
   if (!values.instructions) {
     errors.instructions = 'instructions are required.';
   } else if (!ingredientsRegex.test(values.instructions)) {
-    errors.instructions = 'use comma separated format to pass in instructions';
+    errors.instructions =
+      'use semi-colon separated format to pass in instructions';
   }
 
   return errors;

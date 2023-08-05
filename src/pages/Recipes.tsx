@@ -24,15 +24,9 @@ export interface RecipeProps extends NewRecipeProps {
 }
 
 const Recipes: React.FC = () => {
-  const [selectedKey, setSelectedKey] = React.useState<string>('ingredient');
   const [recipes, setRecipes] = React.useState<DocumentData[]>([]);
   const [isCreated, setIsCreated] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-    setSelectedKey(value);
-  };
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -47,8 +41,6 @@ const Recipes: React.FC = () => {
       })
       .finally(() => setIsLoading(false));
   }, []);
-
-  console.log('selected key', selectedKey);
 
   if (isLoading) {
     return (
@@ -91,17 +83,7 @@ const Recipes: React.FC = () => {
 
   return (
     <div className="w-full relative h-full">
-      <div className="w-full relative my-4 h-[50px]">
-        <select
-          className="py-3 px-4 bg-transparent rounded-md outline-none shadow"
-          onChange={handleChange}
-        >
-          <option value="ingredient">Ingredient</option>
-          <option value="cooking_time">Cooking time</option>
-          <option value="cuisine_type">Cusine Type</option>
-        </select>
-      </div>
-      <div className="w-full h-recipe grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 overflow-y-scroll scroll py-3 px-3">
+      <div className="w-full h-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3 overflow-y-scroll scroll py-3 px-3">
         {recipes?.map((recipe, _idx) => {
           const userRating =
             userHasRated(recipe).length !== 0

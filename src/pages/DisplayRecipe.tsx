@@ -34,7 +34,9 @@ const DisplayRecipe: React.FC = () => {
   >({});
   const [isDelete, setIsDelete] = React.useState<boolean>(false);
 
-  const { handleEditRecipe, setIsNewRecipe } = useContext(AuthContext);
+  const { handleEditRecipe, setIsNewRecipe, setRecipeName } = useContext(
+    AuthContext,
+  );
 
   const searchParam = useLocation();
 
@@ -45,9 +47,10 @@ const DisplayRecipe: React.FC = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    readCurrentRecipe(parsedParam?.id as string).then((response) =>
-      setRecipeInformation(response as DocumentData),
-    );
+    readCurrentRecipe(parsedParam?.id as string).then((response) => {
+      setRecipeInformation(response as DocumentData);
+      setRecipeName(response?.recipe_name);
+    });
   }, [parsedParam]);
 
   const handleEdit = () => {
@@ -193,7 +196,7 @@ const DisplayRecipe: React.FC = () => {
             <h3 className="font-[700] text-[16px] my-2">Ingredients</h3>
             <div className="font-[400] text-[14px] flex flex-wrap flex-auto">
               {recipeInformation.ingredients
-                .split(',')
+                .split(';')
                 .map((ingredient: string, _idx: number) => (
                   <Tag
                     className="flex rounded-[125px] justify-center items-center bg-[#E4FAEE] my-2 mr-2 px-4 py-2 font-[600] text-[#0D9D50]"
@@ -210,7 +213,7 @@ const DisplayRecipe: React.FC = () => {
             <h3 className="font-[700] text-[16px] my-2">Instructions</h3>
             <ul className="font-[400] text-[14px] flex flex-col border-[1px] border-solid border-[#0D9D50] rounded-[12px] bg-[#F8FDFB] px-4 py-3 list-disc list-inside">
               {recipeInformation.instructions
-                .split(',')
+                .split(';')
                 .map((instruction: string, _idx: number) => (
                   <li className="my-1 text-black" key={_idx}>
                     {instruction}
