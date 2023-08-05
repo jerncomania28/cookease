@@ -35,14 +35,13 @@ import storageUtils from './storageUtils';
 // import { RecipeProps } from '../pages/Recipes';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCFOwo4rE4MmfwnljkYhcYu1oET3lkf4eQ',
-  authDomain: 'cookease-cede4.firebaseapp.com',
-  projectId: 'cookease-cede4',
-  storageBucket: 'cookease-cede4.appspot.com',
-  messagingSenderId: '11458584250',
-  appId: '1:11458584250:web:6a0c01e6c5e2dbf29dec83',
+  apiKey: 'AIzaSyAsIYnFWKN3t-sTeFxOGScAKosPvZ6UtZc',
+  authDomain: 'cookease-31ab9.firebaseapp.com',
+  projectId: 'cookease-31ab9',
+  storageBucket: 'cookease-31ab9.appspot.com',
+  messagingSenderId: '186452426971',
+  appId: '1:186452426971:web:5edf84a6ccc2b25f470cfe',
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
@@ -101,6 +100,7 @@ export const createUserViaEmailAndPassword = async (
 
     return createUserResponse?.user?.uid;
   } catch (err: any) {
+    console.log('create user error', err);
     if (err.code === 'auth/email-already-exists') {
       toast.error('🦄 email already exist!', {
         position: 'top-right',
