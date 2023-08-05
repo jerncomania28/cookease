@@ -160,7 +160,7 @@ const NewRecipe: React.FC<NewRecipeEditProps> = ({ recipe, isEdit }) => {
             handleChange={handleChange}
             error={errors?.ingredients}
             isSubtext
-            subtext="separate ingredients with comma"
+            subtext="separate ingredients with semi-colon"
             value={newRecipe.ingredients}
           />
           <RecipeDropDown
@@ -178,7 +178,7 @@ const NewRecipe: React.FC<NewRecipeEditProps> = ({ recipe, isEdit }) => {
             handleChange={handleChange}
             error={errors?.instructions}
             isSubtext
-            subtext="separate instructions with comma"
+            subtext="separate instructions with semi-colon"
             value={newRecipe.instructions}
           />
         </div>

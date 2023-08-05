@@ -71,6 +71,7 @@ const SideBar: React.FC = () => {
     handleMobile,
     handleNewRecipe,
     setIsMobile,
+    setRecipeName,
   } = useContext(AuthContext);
 
   const handleLogOut = () => {
@@ -92,6 +93,11 @@ const SideBar: React.FC = () => {
   const handleAddNewRecipe = () => {
     setIsMobile(false);
     handleNewRecipe();
+  };
+
+  const handleNavLink = () => {
+    setIsMobile(false);
+    setRecipeName('');
   };
 
   return (
@@ -116,7 +122,7 @@ const SideBar: React.FC = () => {
           </h1>
           {sideBarLinks.map((linkItem, _idx) => (
             <NavLink
-              onClick={() => setIsMobile(false)}
+              onClick={handleNavLink}
               key={_idx}
               to={linkItem.href}
               className={({ isActive }) =>
@@ -159,7 +165,7 @@ const SideBar: React.FC = () => {
 
       {/* profile info and sign out */}
 
-      <div className="w-full relative flex justify-center items-center py-2">
+      <div className="w-[90%] lg:w-[80%] mx-auto relative flex justify-between items-center py-2">
         <FontAwesomeIcon
           icon={faCircleUser}
           className="w-[40px] h-[40px] rounded-full"
@@ -167,8 +173,8 @@ const SideBar: React.FC = () => {
         <div className="flex flex-col mx-2 md:mx-4 text-[14px] md:text-[16px]">
           <h3>{currentUser.displayName}</h3>
           <h4 className="text-center">
-            {currentUser.email.length >= 15
-              ? currentUser.email.substring(0, 15) + '...'
+            {currentUser.email.length >= 17
+              ? currentUser.email.substring(0, 17) + '...'
               : currentUser.email}
           </h4>
         </div>

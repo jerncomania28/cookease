@@ -2,8 +2,8 @@
 import React from 'react';
 
 //icon
-
-import Iconly from '../../assets/Iconly.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 //components
 import SearchResult from './SearchResult';
@@ -35,18 +35,37 @@ interface SearchResultProps {
   uniqueId: string;
 }
 
+interface searchMapProps {
+  name: string;
+  ingredients: string;
+  'cuisine type': string;
+  'cooking time': string;
+}
+
 const SearchBar: React.FC = () => {
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [searchResult, setSearchResult] = React.useState<SearchResultProps[]>(
     [],
   );
+  const [isDropDown, setIsDropDown] = React.useState<boolean>(false);
+  const [searchKey, setSearchKey] = React.useState<string>('Name');
+
+  const searchMap: searchMapProps = {
+    name: 'recipe_name',
+    ingredients: 'ingredients',
+    'cuisine type': 'cuisine_type',
+    'cooking time': 'cooking_time',
+  };
 
   const handleSearchResult = (value: string) => {
     readAllRecipe().then((response: any) => {
-      console.log('response', response);
-      const searchResponse = response.filter((result: any) =>
-        result.recipe_name.includes(value),
-      );
+      const searchResponse = response.filter((result: any) => {
+        return result[
+          searchMap[searchKey.toLocaleLowerCase() as keyof searchMapProps]
+        ]
+          .toLowerCase()
+          .includes(value.toLowerCase());
+      });
 
       setSearchResult(searchResponse);
     });
@@ -56,10 +75,21 @@ const SearchBar: React.FC = () => {
     setSearchValue(event.target.value);
     handleSearchResult(event.target.value);
   };
+
+  const handleDropDown = () => {
+    setIsDropDown(!isDropDown);
+  };
+
+  const handleSearchKey = (event: any) => {
+    const { innerText } = event.target;
+    setSearchKey(innerText);
+    handleDropDown();
+  };
+
   return (
     <div className="w-full relative">
-      <div className="w-full relative rounded-xl bg-[#F3F4F6] ">
-        <div className="w-[90%] relative">
+      <div className="w-full relative rounded-xl flex bg-[#F3F4F6] ">
+        <div className="w-[65%] md:w-[70%] relative">
           <input
             type="text"
             name="search"
@@ -69,11 +99,46 @@ const SearchBar: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <img
-          src={Iconly}
-          alt="search-iconly"
-          className="w-[20px] absolute top-1/2 transform -translate-y-1/2 right-[10px] cursor-pointer"
-        />
+        <div className="w-[35%] md:w-[30%] relative">
+          <div
+            className="flex border-[1px] border-solid border-[#ddd] py-[0.6rem] rounded-tr-xl rounded-br-xl items-center justify-center px-2 cursor-pointer text-gray-500"
+            onClick={handleDropDown}
+          >
+            <span className="text-[13px] whitespace-nowrap">{searchKey}</span>
+            <FontAwesomeIcon
+              icon={isDropDown ? faChevronUp : faChevronDown}
+              className="text-[10px] mx-2"
+            />
+          </div>
+          {isDropDown && (
+            <ul className="w-full absolute top-[3rem] z-10 bg-[#F3F4F6] shadow-sm rounded-md">
+              <li
+                className="rounded-tr-md rounded-tl-md py-2 px-2 text-[12px] hover:bg-black hover:bg-opacity-10 text-gray-800 cursor-pointer"
+                onClick={handleSearchKey}
+              >
+                Name
+              </li>
+              <li
+                className="py-2 px-2 text-[12px] hover:bg-black hover:bg-opacity-10 text-gray-800 cursor-pointer"
+                onClick={handleSearchKey}
+              >
+                Ingredients
+              </li>
+              <li
+                className="py-2 px-2 text-[12px] hover:bg-black hover:bg-opacity-10 text-gray-800 cursor-pointer"
+                onClick={handleSearchKey}
+              >
+                Cuisine Type
+              </li>
+              <li
+                className="rounded-br-md rounded-bl-md py-2 px-2 text-[12px] hover:bg-black hover:bg-opacity-10 text-gray-800 cursor-pointer whitespace-nowrap"
+                onClick={handleSearchKey}
+              >
+                Cooking Time
+              </li>
+            </ul>
+          )}
+        </div>
       </div>
       {searchValue && (
         <div className="h-[200px] w-full absolute bg-white rounded-md shadow-md shadow-black-500 top-[3rem] z-10 p-2 ">
@@ -91,7 +156,7 @@ const SearchBar: React.FC = () => {
               ))
             ) : (
               <div className="flex items-center justify-center">
-                <h3 className="text-2xl text-[#1A202C]s">No Recipe Found</h3>
+                <h3 className="text-[15px] text-gray-400 ">No Recipe Found</h3>
               </div>
             )}
           </div>

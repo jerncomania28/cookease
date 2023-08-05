@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { SetStateAction, createContext, useState } from 'react';
 
 import { DocumentData } from 'firebase/firestore';
 
@@ -20,6 +20,8 @@ interface InitialStateProps {
   currentUser: CurrentUserProps;
   isMobile: boolean;
   editRecipe: DocumentData | undefined;
+  recipeName: string;
+  setRecipeName: React.Dispatch<SetStateAction<string>>;
   setIsMobile: React.Dispatch<React.SetStateAction<boolean>>;
   setIsNewRecipe: React.Dispatch<React.SetStateAction<boolean>>;
   isNewRecipe: boolean;
@@ -36,6 +38,8 @@ const initialState = {
   isMobile: false,
   isNewRecipe: false,
   editRecipe: {},
+  recipeName: '',
+  setRecipeName: () => null,
   setIsMobile: () => null,
   setIsNewRecipe: () => null,
   handleCurrentUser: () => null,
@@ -58,6 +62,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [editRecipe, setEditRecipe] = React.useState<DocumentData | undefined>(
     {},
   );
+
+  const [recipeName, setRecipeName] = React.useState<string>('');
 
   const handleIsLoggedIn = (_ac: boolean) => {
     setIsLoggedIn(_ac);
@@ -92,6 +98,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     editRecipe,
     handleEditRecipe,
     setIsNewRecipe,
+    recipeName,
+    setRecipeName,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
